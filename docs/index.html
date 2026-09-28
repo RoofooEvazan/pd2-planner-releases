@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PD2 Planner</title>
+<meta name="description" content="A build planner and map-clear simulator for Project Diablo 2, built on the game's own reverse-engineered rules.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0b09; --bg-2: #15120e; --panel: #1b1712; --line: #2c261e; --line-2: #3d3428;
+    --text: #efe8da; --muted: #a79d8b; --gold: #d6b26a; --gold-2: #e8c883; --fire: #e2533a; --cold: #5aa9f0;
+    --light: #f1d04b; --poison: #5cc35a; --magic: rgba(235, 235, 255, .75); --phys: #c9b18a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 Inter, system-ui, sans-serif; }
+  a { color: var(--gold-2); }
+  header.hero { padding: 72px 16px 56px; text-align: center; background: radial-gradient(ellipse at top, #2a2116 0%, var(--bg) 70%); border-bottom: 1px solid var(--line); }
+  .brand { font-family: Cinzel, serif; letter-spacing: .12em; color: var(--gold-2); font-size: clamp(34px, 6vw, 60px); margin: 0; }
+  .tagline { max-width: 720px; margin: 14px auto 28px; color: var(--muted); font-size: 18px; }
+  .cta { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 8px; border: 1px solid var(--line-2); color: var(--text); text-decoration: none; font-weight: 600; }
+  .btn.primary { background: linear-gradient(#e2c27e, #b9924d); color: #1a130a; border-color: #e2c27e; }
+  .btn:hover { filter: brightness(1.08); }
+  nav.toc { position: sticky; top: 0; z-index: 5; background: rgba(13, 11, 9, .92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+  nav.toc ul { list-style: none; margin: 0 auto; padding: 10px 16px; display: flex; gap: 18px; overflow-x: auto; max-width: 1100px; font-size: 14px; }
+  nav.toc a { color: var(--muted); text-decoration: none; white-space: nowrap; }
+  nav.toc a:hover { color: var(--gold-2); }
+  main { max-width: 1100px; margin: 0 auto; padding: 8px 16px 80px; }
+  section { padding: 56px 0 8px; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: 0; }
+  h2 { font-family: Cinzel, serif; color: var(--gold-2); letter-spacing: .04em; font-size: 28px; margin: 0 0 6px; }
+  h3 { font-size: 18px; margin: 28px 0 6px; color: var(--text); }
+  .lead { color: var(--muted); margin: 0 0 22px; max-width: 780px; }
+  figure { margin: 18px 0 26px; }
+  figure img { width: 100%; height: auto; border: 1px solid var(--line-2); border-radius: 10px; display: block; background: var(--bg-2); }
+  figcaption { color: var(--muted); font-size: 13.5px; margin-top: 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .grid figure { margin: 0; }
+  ul.feats { padding-left: 20px; margin: 8px 0 0; }
+  ul.feats li { margin: 5px 0; }
+  .pill { display: inline-block; font-size: 11.5px; font-weight: 600; letter-spacing: .03em; padding: 1px 8px; border-radius: 999px; border: 1px solid; vertical-align: 2px; margin-left: 6px; }
+  .pill.v { color: #8fd18a; border-color: #4b7d46; }
+  .pill.r { color: var(--gold-2); border-color: #7d6532; }
+  .callout { border: 1px solid var(--line-2); background: var(--panel); border-radius: 10px; padding: 16px 18px; margin: 18px 0; }
+  .callout b { color: var(--gold-2); }
+  .el { font-weight: 600; }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 30px 16px 40px; border-top: 1px solid var(--line); }
+  @media (max-width: 600px) { body { font-size: 15px; } header.hero { padding: 48px 16px 40px; } }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1 class="brand">PD2 PLANNER</h1>
+  <p class="tagline">A build planner and map-clear simulator for Project Diablo 2 — built on the game's own reverse-engineered rules, so the numbers are the game's numbers.</p>
+  <div class="cta">
+    <a class="btn primary" href="https://github.com/RoofooEvazan/pd2-planner-releases/releases/latest">Download for Windows</a>
+    <a class="btn" href="#map-run">See the map simulator</a>
+    <a class="btn" href="https://github.com/RoofooEvazan/pd2-planner-releases/issues/new/choose">Report a bug or suggest a feature</a>
+  </div>
+</header>
+
+<nav class="toc"><ul>
+  <li><a href="#rules">How it's built</a></li>
+  <li><a href="#character">Character</a></li>
+  <li><a href="#combat">Combat</a></li>
+  <li><a href="#map-run">Map run</a></li>
+  <li><a href="#movement">Movement &amp; aggro</a></li>
+  <li><a href="#traps">Traps</a></li>
+  <li><a href="#batch">Batch runs</a></li>
+  <li><a href="#map-damage">Map damage</a></li>
+  <li><a href="#maps">Maps</a></li>
+  <li><a href="#breakpoints">Breakpoints</a></li>
+  <li><a href="#updates">Updates &amp; help</a></li>
+</ul></nav>
+
+<main>
+<section id="rules">
+  <h2>How it's built</h2>
+  <p class="lead">Every rule in the planner comes from reverse engineering Project Diablo 2's own code. Rules checked by running the game's real code in an emulator against the planner's model are marked <span class="pill v">VERIFIED</span>; rules read from the code but not yet run are <span class="pill r">READ</span> and treated as leads. Game data (skills, items, monsters, maps) is read straight from the current <code>pd2data.mpq</code>, so it follows the season.</p>
+  <div class="callout"><b>Example:</b> monster life uses the game's "L-" level columns in single player and ladder games — about a third more life than the plain columns. Checking that against the game's code changed every simulation in the planner, and it's now a setting: <i>Configuration → Game</i>.</div>
+</section>
+
+<section id="character">
+  <h2>Character</h2>
+  <p class="lead">Load a character from the PD2 Armory by name, drop in an Armory export or a <code>.d2s</code> save, or build one from scratch. The desktop app watches your save folder and reloads when the game saves.</p>
+  <figure><img src="assets/character.png" alt="Character summary: life, mana, offence, attack speed, cast and hit-recovery breakpoints, block, resistances, defence"><figcaption>Summary: stats as the character screen shows them, attack speed, cast / hit-recovery / block breakpoints (with the next ones), resistances and defence.</figcaption></figure>
+  <div class="grid">
+    <figure><img src="assets/skills.png" alt="Skills tab"><figcaption>Skills: points, +skills from gear, synergies and damage per skill.</figcaption></figure>
+    <figure><img src="assets/combat.png" alt="Combat tab"><figcaption>Combat: any monster at any area level — its life, defence and resistances, your hit chance and damage after resistance, and every skill's damage per second.</figcaption></figure>
+  </div>
+  <ul class="feats">
+    <li>Items, charms, jewels, runewords, sets, the mercenary and its auras, party auras, buffs and shrines.</li>
+    <li>Map mods on both sides: monster life, damage, resistances, damage reduction and absorb, Fortified, Treacherous, Sundered.</li>
+    <li>Saved builds, compare two builds side by side, export and import.</li>
+  </ul>
+</section>
+
+<section id="map-run">
+  <h2>Map run</h2>
+  <p class="lead">Your character clears a real PD2 map, pack by pack, and you watch the replay. The monsters are placed the way the game spawns them for that layout; the route follows the map's pathing guide from <a href="https://hiimpd2.com/map-pathing">hiimpd2.com</a> (used with permission), straying off it for kills.</p>
+  <figure><img src="assets/replay.gif" alt="Replay of a map run: the character moves along the route, fights packs, monsters close in and die"><figcaption>The replay: your route and position, every cast's area (cones, novas, lines, Frozen Orb), monsters closing in and dying, poisoned monsters pulsing green. Record it as an MP4 with the map, seed and build written on it.</figcaption></figure>
+  <figure><img src="assets/maprun.png" alt="Map run tab"><figcaption>Pick a map, layout and seed, density and rarity; the run gives clear time, kills, experience per hour, deaths, the worst moment and how much ground you crossed twice.</figcaption></figure>
+  <h3>What's simulated</h3>
+  <ul class="feats">
+    <li><b>Routes:</b> the map's pathing guide, a planned shortest tour, or exploring an unknown map (keeping left, right or nearest-first — whichever is quickest). Clear % skips the stragglers that cost the most route per monster.</li>
+    <li><b>Fights:</b> your skill's real shape and reach, aimed where it hits the most; your mercenary and summons (Shadow Warrior and Master with their decoded AI); monster attacks, curses, auras, elite modifiers and immunities.</li>
+    <li><b>Poison:</b> one poison per monster that never stacks (VERIFIED) — you move on once the poison on the pack will kill it.</li>
+    <li><b>A single-target skill</b> for the boss, uniques and champions once the rest is down.</li>
+    <li><b>Survival:</b> life, leech, regeneration, potions (the game's own potion code, VERIFIED), mana and town trips.</li>
+    <li><b>Immunes:</b> leave what your skills can't hurt, or let your pets kill them.</li>
+  </ul>
+</section>
+
+<section id="movement">
+  <h2>Movement &amp; aggro</h2>
+  <p class="lead">Each class moves with its own skill — Teleport, Dragon Flight, Joust, Leap, Gust, Blood Warp — at your real cast or attack rate, with its cooldown. Toggle Enigma for Blink (charges) on any class, or Zerae's Resolve for an Amazon's Joust.</p>
+  <ul class="feats">
+    <li><b>Aggro, from the game's code:</b> a monster notices you within its aggro radius (35 for most) with line of sight, checks every 10–25 frames while idle (VERIFIED), follows while you're in reach, and stops where it is when you get away — no leash.</li>
+    <li>Monsters you pass get pulled along and hit you on the way; melee monsters walk to you in fights, casters keep their spot.</li>
+    <li>Teleport range is where you could click on screen, as in the game.</li>
+  </ul>
+</section>
+
+<section id="traps">
+  <h2>Traps</h2>
+  <p class="lead">Assassin sentries are simulated as the game runs them: at most 5 out, each firing its shots on its own timer, thrown at your attack speed. Use an area trap for packs and a single-target one for elites, and they're thrown as a mix.</p>
+  <figure><img src="assets/traps.gif" alt="A fire trapper's Wake of Fire trap firing waves at a pack"><figcaption>A fire trapper on Ruined Cistern: Wake of Fire traps (orange diamonds) firing their waves into the pack, while the character stays at range.</figcaption></figure>
+</section>
+
+<section id="batch">
+  <h2>Batch runs</h2>
+  <p class="lead">One run is one spawn. Run your build over many seeds — on one layout or every variation of the map — and get the average clear time and how much it varies.</p>
+  <figure><img src="assets/batch.png" alt="Batch run results: average clear, spread, median, fastest and slowest, a per-seed table"><figcaption>Average, spread, median, fastest and slowest, the middle 80 %, moving vs fighting, kills, deaths and experience; click a seed to open it.</figcaption></figure>
+</section>
+
+<section id="map-damage">
+  <h2>Map damage</h2>
+  <p class="lead">Every monster of a map against your damage — the idea of finpingvin's PD2 map damage calculator, rebuilt on the planner's RE-checked rules: pierce only below immunity, negative resistance halved, the −100 floor, and Conviction and curses halved per source on immunes (VERIFIED).</p>
+  <figure><img src="assets/mapdamage.png" alt="Map damage table: per monster resistances before and after pierce, damage per element, one hit against its life, hits to kill"><figcaption>Each resistance before → after your pierce and curses, damage per element in its colour (<span class="el" style="color:var(--phys)">physical</span>, <span class="el" style="color:var(--magic)">magic</span>, <span class="el" style="color:var(--fire)">fire</span>, <span class="el" style="color:var(--light)">lightning</span>, <span class="el" style="color:var(--cold)">cold</span>, <span class="el" style="color:var(--poison)">poison</span>), and one hit against the monster's life.</figcaption></figure>
+  <figure><img src="assets/mapdamage-picker.png" alt="Map picker grouped by tier"><figcaption>Pick maps by tier; damage from your build (with Conviction and a curse) or from sheet values.</figcaption></figure>
+</section>
+
+<section id="maps">
+  <h2>Maps</h2>
+  <p class="lead">The spawn simulator on its own: every PD2 map and layout variation, with the monsters placed for any seed, density and rarity, the elite packs and their modifiers, and the pathing guide.</p>
+  <figure><img src="assets/maps.png" alt="Maps tab: a map layout with its monsters and guide route"></figure>
+</section>
+
+<section id="breakpoints">
+  <h2>Breakpoints</h2>
+  <p class="lead">Attack, cast, hit-recovery and block frames for every class, form, skill and weapon, from the game's own animation data.</p>
+  <figure><img src="assets/breakpoints.png" alt="Breakpoints tab"></figure>
+</section>
+
+<section id="updates">
+  <h2>Updates &amp; help</h2>
+  <p class="lead">The desktop app checks for new versions once a day and installs them when you say so (Help → Check for updates). Report a bug or suggest a feature from the Help tab — the report opens on GitHub with your version filled in.</p>
+  <figure><img src="assets/help.png" alt="Help tab"></figure>
+  <p><a class="btn primary" href="https://github.com/RoofooEvazan/pd2-planner-releases/releases/latest">Download the latest version</a></p>
+</section>
+</main>
+
+<footer>
+  PD2 Planner by RoofooEvazan · Map pathing guides by <a href="https://hiimpd2.com/map-pathing">hiimpd2.com</a> (with permission) · Map damage idea from finpingvin's calculator<br>
+  Diablo II is © Blizzard Entertainment. Project Diablo 2 is the work of its own team; this tool is not affiliated with either.
+</footer>
+</body>
+</html>
