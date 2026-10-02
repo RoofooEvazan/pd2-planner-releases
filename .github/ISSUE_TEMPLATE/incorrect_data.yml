@@ -1,0 +1,78 @@
+name: Report incorrect data
+description: A number, drop chance, item, skill or other game data the planner gets wrong. Evidence required.
+title: "[Data] "
+labels: ["data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep the numbers right. The planner's data comes from the game's own files and tested
+        mechanics, so a correction needs **support**: something another person can check.
+
+        > **Reports without supporting evidence will be closed.** "I think it's wrong" or "a wiki says" is not enough
+        > on its own; tell us what you saw and how, and attach it.
+
+  - type: textarea
+    id: shown
+    attributes:
+      label: What the app shows
+      description: The page (tab › page), the item / skill / monster / map, and the exact number or text. A screenshot of the app helps.
+      placeholder: |
+        (example) Page: Database › Bossing
+        Item / skill / monster / map: Key of Terror from The Countess (Hell)
+        The number or text the app shows: 1 in 11.4 per kill
+    validations:
+      required: true
+
+  - type: textarea
+    id: correct
+    attributes:
+      label: What you believe is correct
+      description: The value or behaviour you think is right, as precisely as you can.
+      placeholder: (example) About 1 in 8 per kill (players 1, no MF)
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence / support
+      description: |
+        Why you believe it. At least one of:
+        - **Screenshots or video** of in-game drops, tooltips or the character screen (paste or drag them in here)
+        - **Game file references**: the file, row and column (e.g. `TreasureClassEx.txt`, row "Countess Rune (H)", column `Prob2`), or code / RE notes
+        - **Test methodology**: what you did, the settings (difficulty, players, MF, area / map), the **sample size** (runs, kills, items) and the results
+      placeholder: |
+        (example) Tested 400 Hell Countess runs, players 1, 0 MF: 52 Keys of Terror (1 in 7.7).
+        Log / spreadsheet: <link>   Video of a sample of runs: <link>
+    validations:
+      required: true
+
+  - type: dropdown
+    id: evidence-kind
+    attributes:
+      label: Kind of evidence
+      multiple: true
+      options:
+        - Screenshots / video from the game
+        - Game file reference (txt / bin / code)
+        - My own test (with sample size)
+        - Other (explained above)
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Filled in by the app's Feedback → Report incorrect data. Otherwise, the version (Help → About) and your character.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: understood
+    attributes:
+      label: Before you submit
+      options:
+        - label: I included evidence another person can check, and I understand reports without it will be closed.
+          required: true
