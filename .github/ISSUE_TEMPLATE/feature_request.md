@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: An idea for the planner
+about: An idea for PD2 Hub
 title: "[Idea] "
 labels: enhancement
 ---

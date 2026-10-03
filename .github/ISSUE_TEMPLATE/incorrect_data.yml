@@ -1,12 +1,12 @@
 name: Report incorrect data
-description: A number, drop chance, item, skill or other game data the planner gets wrong. Evidence required.
+description: A number, drop chance, item, skill or other game data PD2 Hub gets wrong. Evidence required.
 title: "[Data] "
 labels: ["data"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for helping keep the numbers right. The planner's data comes from the game's own files and tested
+        Thanks for helping keep the numbers right. PD2 Hub's data comes from the game's own files and tested
         mechanics, so a correction needs **support**: something another person can check.
 
         > **Reports without supporting evidence will be closed.** "I think it's wrong" or "a wiki says" is not enough

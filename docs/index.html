@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PD2 Planner</title>
+<title>PD2 Hub</title>
 <meta name="description" content="A build planner and map-clear simulator for Project Diablo 2, built on the game's own reverse-engineered rules.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -57,7 +57,7 @@
 <body>
 <div class="beta" role="note"><p>&#9888; Beta &mdash; In Progress &#9888;<small>Features and numbers are still changing. Please report anything that looks wrong.</small></p></div>
 <header class="hero">
-  <h1 class="brand">PD2 PLANNER</h1>
+  <h1 class="brand">PD2 HUB</h1>
   <p class="tagline">A build planner and map-clear simulator for Project Diablo 2 — built on the game's own reverse-engineered rules, so the numbers are the game's numbers.</p>
   <div class="cta">
     <a class="btn primary" href="https://github.com/RoofooEvazan/pd2-planner-releases/releases/latest">Download for Windows</a>
@@ -83,8 +83,8 @@
 <main>
 <section id="rules">
   <h2>How it's built</h2>
-  <p class="lead">Every rule in the planner comes from reverse engineering Project Diablo 2's own code. Rules checked by running the game's real code in an emulator against the planner's model are marked <span class="pill v">VERIFIED</span>; rules read from the code but not yet run are <span class="pill r">READ</span> and treated as leads. Game data (skills, items, monsters, maps) is read straight from the current <code>pd2data.mpq</code>, so it follows the season.</p>
-  <div class="callout"><b>Example:</b> monster life uses the game's "L-" level columns in single player and ladder games — about a third more life than the plain columns. Checking that against the game's code changed every simulation in the planner, and it's now a setting: <i>Configuration → Game</i>.</div>
+  <p class="lead">Every rule in PD2 Hub comes from reverse engineering Project Diablo 2's own code. Rules checked by running the game's real code in an emulator against PD2 Hub's model are marked <span class="pill v">VERIFIED</span>; rules read from the code but not yet run are <span class="pill r">READ</span> and treated as leads. Game data (skills, items, monsters, maps) is read straight from the current <code>pd2data.mpq</code>, so it follows the season.</p>
+  <div class="callout"><b>Example:</b> monster life uses the game's "L-" level columns in single player and ladder games — about a third more life than the plain columns. Checking that against the game's code changed every simulation in PD2 Hub, and it's now a setting: <i>Configuration → Game</i>.</div>
 </section>
 
 <section id="character">
@@ -142,7 +142,7 @@
 
 <section id="map-damage">
   <h2>Map damage</h2>
-  <p class="lead">Every monster of a map against your damage — the idea of finpingvin's PD2 map damage calculator, rebuilt on the planner's RE-checked rules: pierce only below immunity, negative resistance halved, the −100 floor, and Conviction and curses halved per source on immunes (VERIFIED).</p>
+  <p class="lead">Every monster of a map against your damage — the idea of finpingvin's PD2 map damage calculator, rebuilt on PD2 Hub's RE-checked rules: pierce only below immunity, negative resistance halved, the −100 floor, and Conviction and curses halved per source on immunes (VERIFIED).</p>
   <figure><img src="assets/mapdamage.png" alt="Map damage table: per monster resistances before and after pierce, damage per element, one hit against its life, hits to kill"><figcaption>Each resistance before → after your pierce and curses, damage per element in its colour (<span class="el" style="color:var(--phys)">physical</span>, <span class="el" style="color:var(--magic)">magic</span>, <span class="el" style="color:var(--fire)">fire</span>, <span class="el" style="color:var(--light)">lightning</span>, <span class="el" style="color:var(--cold)">cold</span>, <span class="el" style="color:var(--poison)">poison</span>), and one hit against the monster's life.</figcaption></figure>
   <figure><img src="assets/mapdamage-picker.png" alt="Map picker grouped by tier"><figcaption>Pick maps by tier; damage from your build (with Conviction and a curse) or from sheet values.</figcaption></figure>
 </section>
@@ -168,7 +168,7 @@
 </main>
 
 <footer>
-  PD2 Planner by RoofooEvazan · Map pathing guides by <a href="https://hiimpd2.com/map-pathing">hiimpd2.com</a> (with permission) · Map damage idea from finpingvin's calculator<br>
+  PD2 Hub by RoofooEvazan · Map pathing guides by <a href="https://hiimpd2.com/map-pathing">hiimpd2.com</a> (with permission) · Map damage idea from finpingvin's calculator<br>
   Diablo II is © Blizzard Entertainment. Project Diablo 2 is the work of its own team; this tool is not affiliated with either.
 </footer>
 </body>

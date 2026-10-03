@@ -17,5 +17,5 @@ labels: bug
 
 
 ### Environment
-- PD2 Planner version (Help → About):
+- PD2 Hub version (Help → About):
 - Character (Armory name, or attach the .d2s / export):

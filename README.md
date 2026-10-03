@@ -1,4 +1,4 @@
-# PD2 Planner
+# PD2 Hub
 
 A build planner and map-clear simulator for **Project Diablo 2**, built on the game's own reverse-engineered rules.
 
@@ -14,7 +14,7 @@ A build planner and map-clear simulator for **Project Diablo 2**, built on the g
 
 ## Install
 
-Download `PD2 Planner_x.y.z_x64-setup.exe` from the [latest release](https://github.com/RoofooEvazan/pd2-planner-releases/releases/latest) and run it. The app checks for updates once a day (Help → Check for updates) and installs them when you say so.
+Download `PD2-Hub_x.y.z_x64-setup.exe` from the [latest release](https://github.com/RoofooEvazan/pd2-planner-releases/releases/latest) and run it. The app checks for updates once a day (Help → Check for updates) and installs them when you say so.
 
 ## Bugs and ideas
 
